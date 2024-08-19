@@ -7,6 +7,18 @@ const socketIo = require('socket.io')
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const axios = require('axios')
+const path = require("path")
+
+
+//client
+//upload  render
+app.use(express.static(path.join(__dirname,'/client/build')))
+app.get('*',(req,res)=>{
+    res.sendFile(path.join(__dirname,'/client/build/index.html'))
+})
+
+
+
 
 //hack
 const limiter = rateLimit({
