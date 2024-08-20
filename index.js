@@ -12,10 +12,11 @@ const path = require("path")
 
 //client
 //upload  render
+/*
 app.use(express.static(path.join(__dirname,'/client/build')))
 app.get('*',(req,res)=>{
     res.sendFile(path.join(__dirname,'/client/build/index.html'))
-})
+})*/
 
 
 
@@ -29,7 +30,10 @@ const limiter = rateLimit({
 //___
 // use
 app.use(helmet());
-app.use(cors())
+app.use(cors({
+    origin: ["https://finale-backend2.onrender.com", "http://localhost:3000"],
+    methods: ["GET", "POST"]
+  }));
 dotenv.config()
 db()
 app.use(express.json())
@@ -40,13 +44,13 @@ app.use(`${process.env.API_URL}`,require('./router/SendMRouter'))
 
 
 const server = app.listen(process.env.PORT,()=>{
-    console.log('listen '+ process.env.PORT);
+    console.log('listen '+ process.env.PORT );
 })
 
 
 const io = socketIo(server ,{
   cors :{
-    origin: process.env.SOCKET,
+    origin: "http://localhost:3000",
     methods: ["GET", "POST"]
   }
 })
