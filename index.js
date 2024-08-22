@@ -11,14 +11,15 @@ const path = require("path")
 
 
 //client
-//upload  render
-/*
 app.use(express.static(path.join(__dirname,'/client/build')))
 app.get('*',(req,res)=>{
     res.sendFile(path.join(__dirname,'/client/build/index.html'))
-})*/
+})
 
-
+const serveStatic = require('serve-static');
+app.use(serveStatic(path.join(__dirname, 'client/build'), {
+    index: ['index.html', 'index.htm']
+}));
 
 
 //hack
@@ -31,9 +32,9 @@ const limiter = rateLimit({
 // use
 app.use(helmet());
 app.use(cors({
-    origin: ["https://finale-backend2.onrender.com", "http://localhost:3000"],
+    origin: ["https://frontend-aabg.onrender.com", "http://localhost:3000", "http://localhost:2002"],
     methods: ["GET", "POST"]
-  }));
+}));
 dotenv.config()
 db()
 app.use(express.json())
@@ -48,12 +49,12 @@ const server = app.listen(process.env.PORT,()=>{
 })
 
 
-const io = socketIo(server ,{
-  cors :{
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"]
-  }
-})
+const io = socketIo(server, {
+    cors: {
+      origin: ["http://localhost:3000", "http://localhost:2002", "https://frontend-aabg.onrender.com"],
+      methods: ["GET", "POST"]
+    }
+  });
 
 let onlineUsers = new Map
 
