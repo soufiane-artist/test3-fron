@@ -65,3 +65,9 @@ module.exports.updateUserDeals = async (req, res) => {
         res.status(500).json({ error: error.message }); // إرجاع رسالة الخطأ
     }
 };
+
+
+module.exports.deleteAllDeals = async(req,res)=>{
+    await Deal.deleteMany()
+    res.json({message : 'deals delete'})
+}

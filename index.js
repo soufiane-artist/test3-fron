@@ -11,16 +11,19 @@ const path = require("path")
 
 
 //client
+/*
 app.use(express.static(path.join(__dirname,'/client/build')))
 app.get('*',(req,res)=>{
     res.sendFile(path.join(__dirname,'/client/build/index.html'))
 })
+*/
 
+/*
 const serveStatic = require('serve-static');
 app.use(serveStatic(path.join(__dirname, 'client/build'), {
     index: ['index.html', 'index.htm']
 }));
-
+*/
 
 //hack
 const limiter = rateLimit({
@@ -32,8 +35,8 @@ const limiter = rateLimit({
 // use
 app.use(helmet());
 app.use(cors({
-    origin: ["https://frontend-aabg.onrender.com", "http://localhost:3000", "http://localhost:2002"],
-    methods: ["GET", "POST"]
+    origin: ["*","https://frontend-aabg.onrender.com","https://www.meta2fx.com", "http://localhost:3000", "https://backend-meta2.onrender.com"],
+    methods: ["GET", "POST","DELETE","PUT"]
 }));
 dotenv.config()
 db()
@@ -44,14 +47,14 @@ app.use(`${process.env.API_URL}`,require('./router/authR.JS'))
 app.use(`${process.env.API_URL}`,require('./router/SendMRouter'))
 
 
-const server = app.listen(process.env.PORT,()=>{
+const server = app.listen(2000,()=>{
     console.log('listen '+ process.env.PORT );
 })
 
 
 const io = socketIo(server, {
     cors: {
-      origin: ["http://localhost:3000", "http://localhost:2002", "https://frontend-aabg.onrender.com"],
+      origin: ["http://localhost:3000", "https://backend-meta2.onrender.com", "https://frontend-aabg.onrender.com"],
       methods: ["GET", "POST"]
     }
   });
